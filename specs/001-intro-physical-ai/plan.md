@@ -1,43 +1,44 @@
-# Implementation Plan: Introduction to Physical AI & Humanoid Robotics
+# Implementation Plan: [FEATURE]
 
-**Branch**: `001-intro-physical-ai` | **Date**: 2026-01-06 | **Spec**: [specs/001-intro-physical-ai/spec.md]
-**Input**: Feature specification from `/specs/001-intro-physical-ai/spec.md`
+**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
+**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
 
 **Note**: This template is filled in by the `/sp.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-Create the introduction chapter for the "Physical AI & Humanoid Robotics" textbook that explains Physical AI and embodied intelligence, the shift from purely digital AI to AI operating in the physical world, and why humanoid robots are central to this transition. The implementation will follow a simulation-first approach using PyBullet, maintain technical clarity with a focus on Python code examples, and be accessible to readers with basic programming knowledge.
+[Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
 
-**Language/Version**: Python 3.11+ (for code examples and implementations)
-**Primary Dependencies**: PyBullet (physics simulation), Docusaurus (documentation framework), Vercel (deployment platform)
-**Storage**: File-based (Markdown content, configuration files)
-**Testing**: Manual review process, code example verification, peer review by domain experts
-**Target Platform**: Web-based documentation deployed on Vercel, accessible via browsers
-**Project Type**: Documentation/content creation project
-**Performance Goals**: Fast loading times for all content, responsive design for various devices
-**Constraints**: Must maintain technical accuracy, follow simulation-first approach, ensure accessibility for diverse learners
-**Scale/Scope**: 13 chapters textbook with code examples, exercises, and supporting materials
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
+
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
+**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Project Type**: [single/web/mobile - determines source structure]  
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
+**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- Technical Accuracy: All content must be technically accurate and verified against current research literature (COMPLIANT: Will use peer review process)
-- Educational Structure: Content must follow logical pedagogical progression from foundational to advanced topics (COMPLIANT: Will follow four-module structure)
-- Consistency: All content, code examples, terminology, and notation must maintain consistency (COMPLIANT: Will use standardized formatting and naming conventions)
-- Simulation-First: All practical examples must be demonstrated in simulation environments (PyBullet) before real-world application (COMPLIANT: Will use PyBullet for all examples)
-- Code Quality: All code examples must adhere to industry best practices for robotics and AI development (COMPLIANT: Will follow Python best practices)
-- Safety and Ethics: All content must emphasize safety protocols, ethical considerations, and responsible AI practices (COMPLIANT: Will include safety warnings and ethical discussions)
+[Gates determined based on constitution file]
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/001-intro-physical-ai/
+specs/[###-feature]/
 ├── plan.md              # This file (/sp.plan command output)
 ├── research.md          # Phase 0 output (/sp.plan command)
 ├── data-model.md        # Phase 1 output (/sp.plan command)
@@ -46,33 +47,52 @@ specs/001-intro-physical-ai/
 └── tasks.md             # Phase 2 output (/sp.tasks command - NOT created by /sp.plan)
 ```
 
-### Content Structure (repository root)
+### Source Code (repository root)
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
 
 ```text
-docs/
-├── intro/                    # Introduction chapter content
-│   ├── index.md             # Main introduction page
-│   ├── physical-ai.md       # Physical AI concepts
-│   ├── embodied-intelligence.md # Embodied intelligence concepts
-│   └── sim-to-real.md       # Simulation-first approach
-├── foundations/             # Module 1: Foundations of Physical AI
-├── control-motion/          # Module 2: Control and Motion
-├── intelligence-learning/   # Module 3: Intelligence and Learning
-├── integration-applications/ # Module 4: Integration and Applications
-├── tutorials/               # Practical tutorials and examples
-└── reference/               # Reference materials and appendices
-
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── components/              # Docusaurus components
-├── css/                     # Custom styling
-└── pages/                   # Custom pages
+├── models/
+├── services/
+├── cli/
+└── lib/
 
-docusaurus.config.js         # Docusaurus configuration
-package.json                # Project dependencies
-vercel.json                 # Vercel deployment configuration
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
-**Structure Decision**: This is a documentation project using Docusaurus as the framework for creating the textbook content. The content will be organized in modules following the four-module structure defined in the specification, with each chapter as a separate document. Code examples will be integrated using Docusaurus's code block features and potentially interactive playgrounds.
+**Structure Decision**: [Document the selected structure and reference the real
+directories captured above]
 
 ## Complexity Tracking
 
@@ -80,4 +100,5 @@ vercel.json                 # Vercel deployment configuration
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| None | None | None |
+| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
