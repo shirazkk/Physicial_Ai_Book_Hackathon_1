@@ -1,0 +1,320 @@
+# ROS 2 Educational API Contract for Module 2
+# This contract defines the conceptual interfaces for educational examples in Module 2
+
+openapi: 3.0.0
+info:
+  title: ROS 2 Educational API
+  description: API contracts for educational examples in Module 2 - Robotic Nervous System with ROS 2
+  version: 1.0.0
+  contact:
+    name: Physical AI & Humanoid Robotics Textbook
+    email: textbook@example.com
+
+paths:
+  /nodes:
+    get:
+      summary: List all active ROS 2 nodes
+      description: Retrieve a list of all currently active ROS 2 nodes in the system
+      responses:
+        '200':
+          description: List of active nodes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    items:
+                      type: string
+                      description: Name of the ROS 2 node
+              example:
+                nodes: ["talker", "listener", "robot_controller", "ai_agent"]
+    post:
+      summary: Create a new ROS 2 node
+      description: Initialize a new ROS 2 node with specified parameters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                node_name:
+                  type: string
+                  description: Unique name for the node
+                namespace:
+                  type: string
+                  description: Namespace for the node (optional)
+                parameters:
+                  type: object
+                  description: Configuration parameters for the node
+              required:
+                - node_name
+              example:
+                node_name: "my_robot_controller"
+                namespace: "robot1"
+                parameters:
+                  update_rate: 50
+                  control_mode: "position"
+      responses:
+        '201':
+          description: Node created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  node_id:
+                    type: string
+                    description: Unique identifier for the created node
+                  status:
+                    type: string
+                    description: Status of the node
+              example:
+                node_id: "my_robot_controller_12345"
+                status: "active"
+
+  /topics:
+    get:
+      summary: List all active ROS 2 topics
+      description: Retrieve a list of all currently active ROS 2 topics in the system
+      responses:
+        '200':
+          description: List of active topics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Topic name
+                        type:
+                          type: string
+                          description: Message type
+                        publishers:
+                          type: integer
+                          description: Number of publishers
+                        subscribers:
+                          type: integer
+                          description: Number of subscribers
+              example:
+                topics:
+                  - name: "/cmd_vel"
+                    type: "geometry_msgs/Twist"
+                    publishers: 1
+                    subscribers: 2
+                  - name: "/sensor_data"
+                    type: "sensor_msgs/LaserScan"
+                    publishers: 1
+                    subscribers: 3
+
+  /services:
+    get:
+      summary: List all active ROS 2 services
+      description: Retrieve a list of all currently active ROS 2 services in the system
+      responses:
+        '200':
+          description: List of active services
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  services:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Service name
+                        type:
+                          type: string
+                          description: Service type
+                        node:
+                          type: string
+                          description: Node providing the service
+              example:
+                services:
+                  - name: "/get_position"
+                    type: "std_srvs/Trigger"
+                    node: "robot_controller"
+
+  /urdf/models:
+    post:
+      summary: Upload a URDF robot model
+      description: Upload a URDF file defining a robot model
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+              description: URDF XML content
+            example: |
+              <?xml version="1.0"?>
+              <robot name="simple_robot">
+                <link name="base_link">
+                  <visual>
+                    <geometry>
+                      <box size="0.5 0.5 0.2"/>
+                    </geometry>
+                  </visual>
+                </link>
+              </robot>
+      responses:
+        '201':
+          description: URDF model uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  model_id:
+                    type: string
+                    description: Unique identifier for the model
+                  validation_status:
+                    type: string
+                    description: Validation result
+              example:
+                model_id: "simple_robot_67890"
+                validation_status: "valid"
+
+  /simulation:
+    post:
+      summary: Start a Gazebo simulation
+      description: Initialize a Gazebo simulation with specified robot model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model_id:
+                  type: string
+                  description: ID of the URDF model to load
+                world_file:
+                  type: string
+                  description: World file to use (optional)
+                parameters:
+                  type: object
+                  description: Simulation parameters
+              required:
+                - model_id
+              example:
+                model_id: "simple_robot_67890"
+                world_file: "empty.sdf"
+                parameters:
+                  physics_engine: "ode"
+                  real_time_factor: 1.0
+      responses:
+        '200':
+          description: Simulation started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  simulation_id:
+                    type: string
+                    description: Unique identifier for the simulation
+                  status:
+                    type: string
+                    description: Current status of the simulation
+              example:
+                simulation_id: "sim_12345"
+                status: "running"
+
+components:
+  schemas:
+    ROS2Node:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Unique name of the node
+        namespace:
+          type: string
+          description: Namespace of the node
+        status:
+          type: string
+          enum: [active, inactive, unconfigured, shutting_down]
+          description: Current lifecycle state of the node
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicInfo'
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicInfo'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInfo'
+
+    TopicInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Topic name
+        type:
+          type: string
+          description: Message type
+        qos_profile:
+          type: string
+          description: Quality of Service profile
+
+    ServiceInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Service name
+        type:
+          type: string
+          description: Service type
+        node:
+          type: string
+          description: Node providing the service
+
+    URDFModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the model
+        name:
+          type: string
+          description: Name of the robot
+        links:
+          type: integer
+          description: Number of links in the model
+        joints:
+          type: integer
+          description: Number of joints in the model
+        validation_status:
+          type: string
+          enum: [valid, invalid, needs_fixes]
+          description: Validation result
+
+tags:
+  - name: nodes
+    description: ROS 2 node management
+  - name: topics
+    description: Topic-based communication
+  - name: services
+    description: Service-based communication
+  - name: urdf
+    description: Robot description management
+  - name: simulation
+    description: Gazebo simulation control
