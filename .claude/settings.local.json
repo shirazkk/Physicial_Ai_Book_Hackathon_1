@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json)",
-      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)"
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly)",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/setup-plan.ps1 -Json\")"
     ]
   }
 }
