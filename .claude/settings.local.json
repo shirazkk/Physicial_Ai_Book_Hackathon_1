@@ -5,7 +5,11 @@
       "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
       "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly)",
       "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly\")",
-      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/setup-plan.ps1 -Json\")"
+      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/setup-plan.ps1 -Json\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json\")",
+      "Bash(dir specs004-isaac-ai-brain)",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"Get-ChildItem -Path .\\\\specs\\\\004-isaac-ai-brain\\\\ -Name\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks\")"
     ]
   }
 }
