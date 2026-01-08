@@ -50,7 +50,7 @@ The skills and mindset required for Physical AI development align with the progr
 
 ## Related Resources
 
-- [PyBullet Simulation Examples](./examples/pybullet_basics.py) - Code examples for simulation-first development
+- Code examples for simulation-first development can be found in the Module 1: Foundation section
 - Four-module structure overview in the [Book Structure](./book-structure.md) page
 - Safety and ethical considerations throughout all content pages
 
@@ -58,7 +58,7 @@ The skills and mindset required for Physical AI development align with the progr
 
 After reviewing these foundational concepts, consider:
 
-1. Exploring the [PyBullet examples](./examples/pybullet_basics.py) to see simulation concepts in practice
+1. Exploring code examples in the Module 1: Foundation section to see simulation concepts in practice
 2. Reviewing the [skills and mindset](./skills-mindset.md) required for your learning path
 3. Understanding the [book structure](./book-structure.md) to plan your continued learning
 4. Applying the simulation-first approach to your own robotics projects

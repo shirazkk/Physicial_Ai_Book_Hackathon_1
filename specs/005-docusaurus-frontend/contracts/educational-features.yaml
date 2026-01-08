@@ -1,0 +1,345 @@
+# Educational Features API Contract for Physical AI & Humanoid Robotics Book
+
+## Overview
+This contract defines the API endpoints for educational features of the Physical AI & Humanoid Robotics book Docusaurus frontend. These APIs enable enhanced learning experiences beyond standard documentation features, including progress tracking, exercise submission, and interactive learning tools.
+
+## API Base Configuration
+- **Base URL**: `/api/v1/education`
+- **Content-Type**: `application/json`
+- **Authentication**: Optional JWT-based (for progress tracking features)
+- **Versioning**: URI versioning (v1 in base path)
+
+## Endpoints
+
+### 1. Student Progress Tracking
+#### GET /progress/{module}/{chapter}
+Get a student's progress within a specific module and chapter.
+
+**Path Parameters**:
+- `module`: String - Module identifier (e.g., "module-1-foundations")
+- `chapter`: String - Chapter identifier (e.g., "chapter-1-basic-concepts")
+
+**Response (200 OK)**:
+```json
+{
+  "module": "string",
+  "chapter": "string",
+  "progressPercent": "float",
+  "timeSpentMinutes": "integer",
+  "exercisesCompleted": "integer",
+  "exercisesTotal": "integer",
+  "lastAccessed": "string (ISO 8601 timestamp)",
+  "completedAt": "string (ISO 8601 timestamp, nullable)"
+}
+```
+
+#### POST /progress/{module}/{chapter}/complete
+Mark a chapter as completed by a student.
+
+**Request Body**:
+```json
+{
+  "studentId": "string (optional if unauthenticated)",
+  "completionData": {
+    "timeSpentMinutes": "integer",
+    "exercisesAttempted": "integer",
+    "exercisesCorrect": "integer",
+    "notes": "string (optional)"
+  }
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "status": "completed",
+  "completionCertificate": {
+    "url": "string (certificate download URL)",
+    "issuedAt": "string (ISO 8601 timestamp)"
+  }
+}
+```
+
+### 2. Exercise Management
+#### GET /exercises/{module}/{chapter}
+Get exercises for a specific module and chapter.
+
+**Path Parameters**:
+- `module`: String - Module identifier
+- `chapter`: String - Chapter identifier
+
+**Response (200 OK)**:
+```json
+{
+  "module": "string",
+  "chapter": "string",
+  "exercises": [
+    {
+      "exerciseId": "string",
+      "title": "string",
+      "description": "string",
+      "difficulty": "enum (beginner|intermediate|advanced)",
+      "type": "enum (theoretical|practical|coding|analysis)",
+      "instructions": "string",
+      "expectedOutcome": "string",
+      "hints": ["string"],
+      "resources": [
+        {
+          "title": "string",
+          "url": "string",
+          "type": "enum (documentation|tutorial|video|code)"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### POST /exercises/{exerciseId}/submit
+Submit a solution to an exercise.
+
+**Path Parameters**:
+- `exerciseId`: String - Unique exercise identifier
+
+**Request Body**:
+```json
+{
+  "studentId": "string (optional if unauthenticated)",
+  "solution": {
+    "answerText": "string",
+    "codeSubmission": "string (optional, for coding exercises)",
+    "attachments": ["string (file URLs)"]
+  },
+  "metadata": {
+    "timeTakenMinutes": "integer",
+    "attempts": "integer",
+    "notes": "string (optional)"
+  }
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "exerciseId": "string",
+  "submissionId": "string",
+  "grade": "enum (pass|fail|partial)",
+  "score": "float (0.0-1.0)",
+  "feedback": "string",
+  "improvementSuggestions": ["string"],
+  "completionCertificate": {
+    "url": "string (nullable)",
+    "issuedAt": "string (ISO 8601 timestamp, nullable)"
+  }
+}
+```
+
+### 3. Interactive Learning Tools
+#### POST /simulator/{module}/{scenario}/run
+Run an interactive simulation scenario for hands-on learning.
+
+**Path Parameters**:
+- `module`: String - Module identifier
+- `scenario`: String - Scenario identifier (e.g., "isaac-sim-robot-navigation")
+
+**Request Body**:
+```json
+{
+  "studentId": "string (optional if unauthenticated)",
+  "parameters": {
+    "environment": "string",
+    "robotConfiguration": "object",
+    "taskObjective": "string"
+  }
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "sessionId": "string",
+  "simulatorUrl": "string",
+  "connectionDetails": {
+    "host": "string",
+    "port": "integer",
+    "token": "string"
+  },
+  "estimatedDurationMinutes": "integer"
+}
+```
+
+#### GET /simulator/session/{sessionId}/results
+Get results from an interactive simulation session.
+
+**Path Parameters**:
+- `sessionId`: String - Unique session identifier
+
+**Response (200 OK)**:
+```json
+{
+  "sessionId": "string",
+  "module": "string",
+  "scenario": "string",
+  "results": {
+    "success": "boolean",
+    "performanceMetrics": {
+      "taskCompletionTime": "float",
+      "accuracy": "float",
+      "efficiency": "float"
+    },
+    "learningObjectivesMet": ["string"],
+    "suggestedNextSteps": ["string"]
+  },
+  "logs": [
+    {
+      "timestamp": "string (ISO 8601)",
+      "eventType": "string",
+      "details": "object"
+    }
+  ]
+}
+```
+
+### 4. Resource Management
+#### GET /resources/search
+Search for educational resources across modules.
+
+**Query Parameters**:
+- `q`: String - Search query
+- `module`: String (optional) - Filter by specific module
+- `type`: String (optional) - Filter by resource type (documentation|tutorial|video|code)
+- `difficulty`: String (optional) - Filter by difficulty level
+- `limit`: Integer (optional) - Number of results (default: 10)
+- `offset`: Integer (optional) - Pagination offset (default: 0)
+
+**Response (200 OK)**:
+```json
+{
+  "query": "string",
+  "totalResults": "integer",
+  "results": [
+    {
+      "resourceId": "string",
+      "title": "string",
+      "description": "string",
+      "url": "string",
+      "type": "enum (documentation|tutorial|video|code|paper)",
+      "module": "string",
+      "chapter": "string",
+      "difficulty": "enum (beginner|intermediate|advanced)",
+      "estimatedTimeMinutes": "integer",
+      "relevanceScore": "float"
+    }
+  ],
+  "facets": {
+    "byModule": [
+      {
+        "module": "string",
+        "count": "integer"
+      }
+    ],
+    "byType": [
+      {
+        "type": "string",
+        "count": "integer"
+      }
+    ],
+    "byDifficulty": [
+      {
+        "difficulty": "string",
+        "count": "integer"
+      }
+    ]
+  }
+}
+```
+
+### 5. Certificate and Achievement Management
+#### GET /certificates/{studentId}
+Get certificates and achievements for a student.
+
+**Path Parameters**:
+- `studentId`: String - Student identifier
+
+**Response (200 OK)**:
+```json
+{
+  "studentId": "string",
+  "certificates": [
+    {
+      "certificateId": "string",
+      "title": "string",
+      "description": "string",
+      "issuedAt": "string (ISO 8601 timestamp)",
+      "expiresAt": "string (ISO 8601 timestamp, nullable)",
+      "credentialUrl": "string",
+      "badgeUrl": "string"
+    }
+  ],
+  "achievements": [
+    {
+      "achievementId": "string",
+      "title": "string",
+      "description": "string",
+      "icon": "string",
+      "unlockedAt": "string (ISO 8601 timestamp)",
+      "moduleId": "string",
+      "chapterId": "string"
+    }
+  ]
+}
+```
+
+## Error Responses
+All endpoints may return the following standard error responses:
+
+**400 Bad Request**:
+```json
+{
+  "error": "string",
+  "message": "string",
+  "details": "object (optional)"
+}
+```
+
+**401 Unauthorized**:
+```json
+{
+  "error": "unauthorized",
+  "message": "Authentication required for this endpoint"
+}
+```
+
+**404 Not Found**:
+```json
+{
+  "error": "not_found",
+  "message": "Requested resource not found"
+}
+```
+
+**500 Internal Server Error**:
+```json
+{
+  "error": "internal_server_error",
+  "message": "An unexpected error occurred"
+}
+```
+
+## Rate Limiting
+All endpoints are subject to rate limiting:
+- Authenticated requests: 1000 requests per hour per user
+- Unauthenticated requests: 100 requests per hour per IP
+- Simulator endpoints: 10 concurrent sessions per user
+
+Rate limit headers:
+- `X-RateLimit-Limit`: Request limit per time period
+- `X-RateLimit-Remaining`: Remaining requests in current period
+- `X-RateLimit-Reset`: Unix timestamp for when the rate limit resets
+
+## Security Considerations
+- All sensitive endpoints require JWT authentication
+- Input validation for all parameters to prevent injection attacks
+- Sanitized output to prevent XSS vulnerabilities
+- Proper CORS configuration for web-based access
+- Secure session management for simulator access

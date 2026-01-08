@@ -1,0 +1,92 @@
+.integrationBox {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--ifm-color-primary);
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.integrationBoxTip {
+  border-left-color: #10b981;
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.integrationBoxWarning {
+  border-left-color: #f59e0b;
+  background-color: #fffbeb;
+  border-color: #fde68a;
+}
+
+.integrationBoxCaution {
+  border-left-color: #ef4444;
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.integrationHeader {
+  margin-bottom: 0.5rem;
+}
+
+.integrationTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.integrationContent {
+  font-size: 0.9rem;
+}
+
+.integrationContent p {
+  margin-bottom: 0.5rem;
+}
+
+.integrationContent p:last-child {
+  margin-bottom: 0;
+}
+
+.integrationContent ul,
+.integrationContent ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.integrationContent li {
+  margin-bottom: 0.25rem;
+}
+
+.integrationContent code {
+  font-size: 0.85em;
+  padding: 0.2em 0.4em;
+  background-color: rgba(55, 65, 81, 0.05);
+  border-radius: 0.25rem;
+}
+
+.integrationContent pre code {
+  padding: 0.75rem;
+  background-color: rgba(55, 65, 81, 0.05);
+  border-radius: 0.25rem;
+  display: block;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .integrationBox {
+    margin: 1rem 0;
+    padding: 0.75rem;
+  }
+
+  .integrationTitle {
+    font-size: 0.95rem;
+  }
+
+  .integrationContent {
+    font-size: 0.85rem;
+  }
+}

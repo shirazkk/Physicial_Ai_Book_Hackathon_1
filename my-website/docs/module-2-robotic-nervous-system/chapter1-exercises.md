@@ -18,7 +18,7 @@ Create two nodes: a publisher that sends temperature readings and a subscriber t
 2. The publisher should send a new temperature value every 2 seconds
 3. The temperature values should simulate realistic room temperatures (between 18°C and 25°C)
 4. Create a subscriber node that listens to the `/temperature` topic
-5. The subscriber should log received temperature values and indicate if they are within a comfortable range (>20°C and <24°C)
+5. The subscriber should log received temperature values and indicate if they are within a comfortable range (&gt;20°C and &lt;24°C)
 6. Run both nodes and observe the communication
 
 ### Expected Outcome
