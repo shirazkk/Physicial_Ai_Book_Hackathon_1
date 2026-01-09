@@ -123,7 +123,7 @@ const config: Config = {
             },
             {
               label: 'Module 2: Robotic Nervous System',
-              to: '/docs/module-2-robotic-nervous-system/chapter1-ros2-architecture',
+              to: '/docs/module-2-robotic-nervous-system/chapter-1/ros2-architecture',
             },
           ],
         },
