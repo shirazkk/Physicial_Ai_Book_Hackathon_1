@@ -35,12 +35,14 @@ jobs:
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./my-website/build
+          destination_dir: .  # Deploy to root of gh-pages branch
           publish_branch: gh-pages
           # Allow deploy to gh-pages from GitHub Actions
           force_orphan: true
