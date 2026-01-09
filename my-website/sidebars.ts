@@ -88,6 +88,49 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'Module 3: The Digital Twin (Gazebo & Unity)',
+      collapsed: false,
+      items: [
+        {
+          type: 'category',
+          label: 'Chapter 1: Gazebo Simulation Environment Setup',
+          items: [
+            'module-3-digital-twin/chapter-1-gazebo-basics/content',
+            'module-3-digital-twin/chapter-1-gazebo-basics/exercises',
+            'module-3-digital-twin/chapter-1-gazebo-basics/solutions',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Chapter 2: URDF and SDF Robot Description Formats',
+          items: [
+            'module-3-digital-twin/chapter-2-robot-modeling/content',
+            'module-3-digital-twin/chapter-2-robot-modeling/exercises',
+            'module-3-digital-twin/chapter-2-robot-modeling/solutions',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Chapter 3: Physics Simulation and Sensor Simulation',
+          items: [
+            'module-3-digital-twin/chapter-3-sensor-simulation/content',
+            'module-3-digital-twin/chapter-3-sensor-simulation/exercises',
+            'module-3-digital-twin/chapter-3-sensor-simulation/solutions',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Chapter 4: Unity Visualization and Interaction',
+          items: [
+            'module-3-digital-twin/chapter-4-unity-integration/content',
+            'module-3-digital-twin/chapter-4-unity-integration/exercises',
+            'module-3-digital-twin/chapter-4-unity-integration/solutions',
+          ],
+        },
+      ],
+    },
     // Additional modules will be added as they are created
   ],
 };

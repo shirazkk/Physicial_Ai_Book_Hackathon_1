@@ -1,0 +1,488 @@
+# API Contracts: Module 3 - The Digital Twin (Gazebo & Unity)
+# Educational Features and Interface Specifications
+
+openapi: 3.0.0
+info:
+  title: Digital Twin Educational Features API
+  description: API contracts for educational features in the Digital Twin module
+  version: 1.0.0
+  contact:
+    name: Physical AI & Humanoid Robotics Textbook Team
+
+servers:
+  - url: https://api.digital-twin-textbook.example.com/v1
+    description: Production server for educational features
+
+paths:
+  /chapters:
+    get:
+      summary: Get all chapters in the Digital Twin module
+      description: Retrieve a list of all chapters in Module 3 with their learning objectives and prerequisites
+      responses:
+        '200':
+          description: List of chapters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chapters:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chapter'
+        '400':
+          description: Invalid request parameters
+      tags:
+        - chapters
+
+  /chapters/{chapterId}:
+    get:
+      summary: Get specific chapter details
+      description: Retrieve detailed information about a specific chapter including content, exercises, and solutions
+      parameters:
+        - name: chapterId
+          in: path
+          required: true
+          description: ID of the chapter to retrieve
+          schema:
+            type: string
+            enum: [ch1-gazebo, ch2-urdf-sdf, ch3-physics-sensors, ch4-unity]
+      responses:
+        '200':
+          description: Chapter details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChapterDetail'
+        '404':
+          description: Chapter not found
+      tags:
+        - chapters
+
+  /simulations:
+    get:
+      summary: Get available simulation environments
+      description: Retrieve a list of simulation environments available for the Digital Twin module
+      responses:
+        '200':
+          description: List of simulation environments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  simulations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimulationEnvironment'
+        '400':
+          description: Invalid request parameters
+      tags:
+        - simulations
+
+  /simulations/{simulationId}/run:
+    post:
+      summary: Initialize and run a simulation
+      description: Start a simulation environment with specified parameters
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          description: ID of the simulation to run
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationRunRequest'
+      responses:
+        '200':
+          description: Simulation started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationRunResponse'
+        '400':
+          description: Invalid simulation parameters
+        '404':
+          description: Simulation not found
+      tags:
+        - simulations
+
+  /exercises:
+    get:
+      summary: Get all exercises for the module
+      description: Retrieve a list of all exercises across all chapters in the Digital Twin module
+      responses:
+        '200':
+          description: List of exercises
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exercises:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Exercise'
+        '400':
+          description: Invalid request parameters
+      tags:
+        - exercises
+
+  /exercises/{exerciseId}/submit:
+    post:
+      summary: Submit exercise solution
+      description: Submit a solution for an exercise to be validated
+      parameters:
+        - name: exerciseId
+          in: path
+          required: true
+          description: ID of the exercise to submit solution for
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExerciseSubmission'
+      responses:
+        '200':
+          description: Solution submitted and validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseValidation'
+        '400':
+          description: Invalid submission
+        '404':
+          description: Exercise not found
+      tags:
+        - exercises
+
+  /learning-progress:
+    get:
+      summary: Get learning progress
+      description: Retrieve the current learning progress for a student across the Digital Twin module
+      responses:
+        '200':
+          description: Learning progress information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningProgress'
+        '400':
+          description: Invalid request parameters
+      tags:
+        - progress
+
+components:
+  schemas:
+    Chapter:
+      type: object
+      required:
+        - id
+        - title
+        - sequence
+        - learningObjectives
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the chapter
+          example: "ch1-gazebo"
+        title:
+          type: string
+          description: Title of the chapter
+          example: "Gazebo Simulation Environment Setup"
+        sequence:
+          type: integer
+          description: Sequence number of the chapter in the module
+          example: 1
+        learningObjectives:
+          type: array
+          items:
+            type: string
+          description: List of learning objectives for the chapter
+          example: ["Configure Gazebo simulation environments", "Create and customize world models"]
+        prerequisites:
+          type: array
+          items:
+            type: string
+          description: Prerequisites for the chapter
+          example: ["Module 1: Foundations", "Module 2: Robotic Nervous System"]
+
+    ChapterDetail:
+      type: object
+      required:
+        - id
+        - title
+        - content
+        - exercises
+        - solutions
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the chapter
+        title:
+          type: string
+          description: Title of the chapter
+        content:
+          type: string
+          description: Main content of the chapter
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exercise'
+        solutions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Solution'
+        keyConcepts:
+          type: array
+          items:
+            type: string
+          description: Key concepts covered in the chapter
+
+    SimulationEnvironment:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - platform
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the simulation environment
+          example: "gazebo-basic-world"
+        name:
+          type: string
+          description: Name of the simulation environment
+          example: "Basic Gazebo World"
+        description:
+          type: string
+          description: Description of the simulation environment
+          example: "A simple environment for testing basic Gazebo functionality"
+        platform:
+          type: string
+          description: Platform the simulation runs on
+          enum: [gazebo, unity, combined]
+          example: "gazebo"
+        complexityLevel:
+          type: string
+          description: Complexity level of the simulation
+          enum: [beginner, intermediate, advanced]
+          example: "beginner"
+        requiredHardware:
+          type: object
+          description: Minimum hardware requirements for the simulation
+          properties:
+            ram:
+              type: string
+              example: "4GB"
+            gpu:
+              type: string
+              example: "OpenGL 4.3 compatible"
+
+    SimulationRunRequest:
+      type: object
+      properties:
+        parameters:
+          type: object
+          description: Configuration parameters for the simulation
+        duration:
+          type: integer
+          description: Duration to run the simulation (in seconds)
+          example: 300
+        robotModel:
+          type: string
+          description: Robot model to use in the simulation
+          example: "simple-robot.urdf"
+
+    SimulationRunResponse:
+      type: object
+      required:
+        - simulationId
+        - status
+        - startTime
+      properties:
+        simulationId:
+          type: string
+          description: Unique identifier for the running simulation
+        status:
+          type: string
+          enum: [started, running, completed, error]
+        startTime:
+          type: string
+          format: date-time
+          description: Timestamp when the simulation started
+        endpoint:
+          type: string
+          description: Endpoint to connect to the running simulation
+
+    Exercise:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - chapterId
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the exercise
+          example: "ch1-ex1"
+        title:
+          type: string
+          description: Title of the exercise
+          example: "Setting up Basic Gazebo Environment"
+        description:
+          type: string
+          description: Detailed description of the exercise
+        chapterId:
+          type: string
+          description: ID of the chapter this exercise belongs to
+          example: "ch1-gazebo"
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        estimatedTime:
+          type: integer
+          description: Estimated time to complete the exercise (in minutes)
+          example: 45
+        requiredSkills:
+          type: array
+          items:
+            type: string
+          description: Skills required to complete the exercise
+
+    Solution:
+      type: object
+      required:
+        - id
+        - exerciseId
+        - content
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the solution
+        exerciseId:
+          type: string
+          description: ID of the exercise this solution is for
+        content:
+          type: string
+          description: Content of the solution
+        validationSteps:
+          type: array
+          items:
+            type: string
+          description: Steps to validate the solution
+
+    ExerciseSubmission:
+      type: object
+      required:
+        - solution
+        - metadata
+      properties:
+        solution:
+          type: string
+          description: Submitted solution content
+        metadata:
+          type: object
+          description: Metadata about the submission
+          properties:
+            timestamp:
+              type: string
+              format: date-time
+            environment:
+              type: string
+              description: Environment where solution was developed
+            additionalFiles:
+              type: array
+              items:
+                type: string
+              description: Additional files submitted with the solution
+
+    ExerciseValidation:
+      type: object
+      required:
+        - submissionId
+        - status
+        - feedback
+      properties:
+        submissionId:
+          type: string
+          description: Unique identifier for the submission
+        status:
+          type: string
+          enum: [passed, failed, partial]
+          description: Validation result
+        feedback:
+          type: string
+          description: Feedback on the submission
+        score:
+          type: number
+          format: float
+          description: Numerical score for the submission (0.0 to 1.0)
+        validationDetails:
+          type: array
+          items:
+            type: object
+            properties:
+              criterion:
+                type: string
+              passed:
+                type: boolean
+              details:
+                type: string
+
+    LearningProgress:
+      type: object
+      required:
+        - studentId
+        - moduleProgress
+      properties:
+        studentId:
+          type: string
+          description: Unique identifier for the student
+        moduleProgress:
+          type: object
+          description: Progress information for the Digital Twin module
+          properties:
+            moduleId:
+              type: string
+              description: Identifier for the module
+              example: "module-3-digital-twin"
+            chaptersCompleted:
+              type: array
+              items:
+                type: string
+              description: IDs of completed chapters
+            exercisesCompleted:
+              type: array
+              items:
+                type: string
+              description: IDs of completed exercises
+            overallScore:
+              type: number
+              format: float
+              description: Overall score for the module (0.0 to 1.0)
+            timeSpent:
+              type: integer
+              description: Total time spent on the module (in minutes)
+            nextRecommended:
+              type: string
+              description: Next recommended activity for the student
+
+tags:
+  - name: chapters
+    description: Operations related to chapters in the Digital Twin module
+  - name: simulations
+    description: Operations related to simulation environments
+  - name: exercises
+    description: Operations related to exercises and assessments
+  - name: progress
+    description: Operations related to learning progress tracking
