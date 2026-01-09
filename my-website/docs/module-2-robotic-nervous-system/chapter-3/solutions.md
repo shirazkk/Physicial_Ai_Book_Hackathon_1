@@ -1,4 +1,4 @@
-# Chapter 3 Solutions: Understanding URDF for Humanoid Robot Description and Control
+# Solutions: Understanding URDF for Humanoid Robot Description and Control
 
 ## Solution for Exercise 1: Basic Humanoid URDF Creation
 

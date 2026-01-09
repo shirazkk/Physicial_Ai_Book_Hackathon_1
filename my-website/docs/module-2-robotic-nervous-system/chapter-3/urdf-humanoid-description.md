@@ -1,4 +1,4 @@
-# Chapter 3: Understanding URDF for Humanoid Robot Description and Control
+# Understanding URDF for Humanoid Robot Description and Control
 
 ## Learning Objectives
 By the end of this chapter, readers will be able to:
@@ -1069,8 +1069,8 @@ Here's a complete example of a humanoid robot URDF model with all components:
 
 Complete the following exercises to reinforce your understanding of URDF for humanoid robots:
 
-1. [Chapter 3 Exercises](./chapter3-exercises.md) - Practice problems covering URDF creation and humanoid robot modeling
-2. [Chapter 3 Solutions](./chapter3-solutions.md) - Complete implementations and solution guides
+1. [Chapter 3 Exercises](./exercises.md) - Practice problems covering URDF creation and humanoid robot modeling
+2. [Chapter 3 Solutions](./solutions.md) - Complete implementations and solution guides
 
 ## 8. Summary
 

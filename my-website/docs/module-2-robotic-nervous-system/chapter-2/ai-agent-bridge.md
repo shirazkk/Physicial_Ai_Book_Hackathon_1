@@ -1,4 +1,4 @@
-# Chapter 2: Bridging Python-based AI Agents to Robot Controllers
+# Bridging Python-based AI Agents to Robot Controllers
 
 ## Learning Objectives
 By the end of this chapter, readers will be able to:
@@ -780,8 +780,8 @@ if __name__ == '__main__':
 
 Complete the following exercises to reinforce your understanding of bridging AI agents with robot controllers:
 
-1. [Chapter 2 Exercises](./chapter2-exercises.md) - Hands-on problems covering AI agent implementation and integration
-2. [Chapter 2 Solutions](./chapter2-solutions.md) - Complete implementations and solution guides
+1. [Chapter 2 Exercises](./exercises.md) - Hands-on problems covering AI agent implementation and integration
+2. [Chapter 2 Solutions](./solutions.md) - Complete implementations and solution guides
 
 ## 7. Summary
 

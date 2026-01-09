@@ -1,4 +1,4 @@
-# Chapter 4 Solutions: Implementing Robotic Nervous System Patterns
+#  Solutions: Implementing Robotic Nervous System Patterns
 
 ## Solution for Exercise 1: Basic Reflex System Implementation
 

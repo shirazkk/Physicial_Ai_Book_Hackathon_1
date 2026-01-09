@@ -1,4 +1,4 @@
-# Chapter 4: Implementing Robotic Nervous System Patterns
+# Implementing Robotic Nervous System Patterns
 
 ## Learning Objectives
 By the end of this chapter, readers will be able to:
@@ -1737,8 +1737,8 @@ if __name__ == '__main__':
 
 Complete the following exercises to reinforce your understanding of robotic nervous system patterns:
 
-1. [Chapter 4 Exercises](./chapter4-exercises.md) - Practice problems covering nervous system pattern implementation
-2. [Chapter 4 Solutions](./chapter4-solutions.md) - Complete implementations and solution guides
+1. [Chapter 4 Exercises](./exercises.md) - Practice problems covering nervous system pattern implementation
+2. [Chapter 4 Solutions](./solutions.md) - Complete implementations and solution guides
 
 ## 8. Summary
 

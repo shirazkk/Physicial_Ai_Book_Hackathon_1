@@ -1,4 +1,4 @@
-# Chapter 2 Solutions: Bridging Python-based AI Agents to Robot Controllers
+# Solutions: Bridging Python-based AI Agents to Robot Controllers
 
 ## Solution for Exercise 1: Basic AI Agent Implementation
 

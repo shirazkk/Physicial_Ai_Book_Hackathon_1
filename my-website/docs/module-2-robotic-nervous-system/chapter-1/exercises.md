@@ -1,4 +1,4 @@
-# Chapter 1 Exercises: ROS 2 Architecture and Communication Patterns
+# Exercises: ROS 2 Architecture and Communication Patterns
 
 ## Exercise 1: Basic Publisher-Subscriber
 

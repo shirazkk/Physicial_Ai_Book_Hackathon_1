@@ -1,4 +1,4 @@
-# Chapter 1: Understanding ROS 2 Architecture and Communication Patterns
+# Understanding ROS 2 Architecture and Communication Patterns
 
 ## Learning Objectives
 By the end of this chapter, readers will be able to:
@@ -411,8 +411,8 @@ Understanding these concepts is essential for building distributed robotic syste
 
 Complete the following exercises to reinforce your understanding of ROS 2 architecture:
 
-1. [Chapter 1 Exercises](./chapter1-exercises.md) - Practice problems covering ROS 2 communication patterns
-2. [Chapter 1 Solutions](./chapter1-solutions.md) - Complete implementations and solution guides
+1. [Chapter 1 Exercises](./exercises.md) - Practice problems covering ROS 2 communication patterns
+2. [Chapter 1 Solutions](./solutions.md) - Complete implementations and solution guides
 
 ## 8. Further Reading
 

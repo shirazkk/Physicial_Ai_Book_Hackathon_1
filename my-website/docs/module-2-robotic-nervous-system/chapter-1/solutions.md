@@ -1,4 +1,4 @@
-# Chapter 1 Solutions: ROS 2 Architecture and Communication Patterns
+# Solutions: ROS 2 Architecture and Communication Patterns
 
 ## Solution for Exercise 1: Basic Publisher-Subscriber
 
