@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
@@ -31,6 +33,9 @@ jobs:
           cd my-website
           yarn install --frozen-lockfile
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Build website
         run: |
           cd my-website
@@ -44,3 +49,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./my-website/build
           publish_branch: gh-pages
+          force_orphan: true
