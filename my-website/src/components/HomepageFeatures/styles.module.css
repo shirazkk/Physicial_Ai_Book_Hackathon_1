@@ -3,9 +3,19 @@
   align-items: center;
   padding: 2rem 0;
   width: 100%;
+  background-color: #f8f9fa;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featureIcon {
+  font-size: 4rem;
+  margin: 0 auto 1rem;
+  display: block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  background: linear-gradient(135deg, #1a2a6c, #2a5298);
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
