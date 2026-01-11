@@ -5,14 +5,15 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
+  icon?: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Foundational Concepts',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    icon: '🧮',
     description: (
       <>
         Master the mathematical foundations, kinematics, dynamics, sensing, perception, and embodied intelligence
@@ -22,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Robotic Nervous System',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    icon: '⚡',
     description: (
       <>
         Learn about ROS 2 architecture, AI-agent bridges, URDF humanoid descriptions, and robotic nervous system patterns
@@ -31,22 +32,22 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Isaac Ecosystem Integration',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Digital Twin & Simulation',
+    icon: '🎮',
     description: (
       <>
-        Discover how to leverage NVIDIA Isaac Sim, Isaac ROS, and other tools for simulation-first development
+        Discover how to leverage Gazebo, Unity, and NVIDIA Isaac ecosystems for simulation-first development
         and real-world deployment of humanoid robots.
       </>
     ),
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, description, icon}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <div className={styles.featureIcon}>{icon}</div>
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

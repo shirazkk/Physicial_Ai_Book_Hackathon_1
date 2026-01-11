@@ -1,6 +1,6 @@
 /**
  * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * locally scoped CSS for the component.
  */
 
 .heroBanner {
@@ -8,6 +8,8 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #1a2a6c, #2a5298, #b21f1f);
+  color: white;
 }
 
 @media screen and (max-width: 996px) {
@@ -16,8 +18,232 @@
   }
 }
 
+.heroInner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 996px) {
+  .buttons {
+    flex-direction: column;
+  }
+}
+
+.section {
+  padding: 4rem 0;
+  background-color: white;
+}
+
+.altSection {
+  background-color: #f8f9fa;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #1a2a6c;
+  font-weight: bold;
+}
+
+.sectionSubtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: #495057;
+}
+
+.sectionText {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #495057;
+  margin-bottom: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media screen and (max-width: 996px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
+.col {
+  flex: 1;
+}
+
+.bookCover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coverImage {
+  width: 250px;
+  height: 350px;
+  background: linear-gradient(135deg, #1a2a6c, #2a5298);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.coverImage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.1) 50%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.1) 50%, transparent 52%);
+  background-size: 30px 30px;
+}
+
+.robotIcon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  z-index: 1;
+}
+
+.coverTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  z-index: 1;
+  padding: 0 1rem;
+}
+
+.outcomesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.outcomeCard {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.outcomeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.outcomeIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.outcomeCard h3 {
+  color: #1a2a6c;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.outcomeCard p {
+  color: #212529;
+  line-height: 1.6;
+}
+
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.moduleCard {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.moduleCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.moduleHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.moduleNumber {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a2a6c;
+  margin-bottom: 0.5rem;
+}
+
+.moduleHeader h3 {
+  color: #1a2a6c;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.moduleTopics {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.moduleTopics li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  color: #212529;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.moduleTopics li:last-child {
+  border-bottom: none;
+}
+
+/* Features section from the original */
+.features {
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+  width: 100%;
+  background-color: #f8f9fa;
+}
+
+.featureSvg {
+  height: 200px;
+  width: 200px;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
 }
