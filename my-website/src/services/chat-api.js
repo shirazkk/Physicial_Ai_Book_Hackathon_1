@@ -6,7 +6,7 @@ class ChatApiService {
   constructor() {
     // Get the API URL from environment or use default
     // Safe handling for both build time and runtime in Docusaurus
-    let apiUrl = "http://localhost:8000";
+    let apiUrl = "https://physicialaibookhackathon1-production.up.railway.app";
 
     this.baseUrl = apiUrl;
     this.apiPrefix = "/api/v1";
