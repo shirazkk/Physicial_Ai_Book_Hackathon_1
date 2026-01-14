@@ -21,7 +21,8 @@
       "Bash(curl -s -H \"Accept: application/vnd.github.v3+json\" https://api.github.com/repos/shirazkk/Physicial_Ai_Book_Hackathon_1/actions/runs)",
       "Bash(curl -s -H \"Accept: application/vnd.github.v3+json\" https://api.github.com/repos/shirazkk/Physicial_Ai_Book_Hackathon_1/actions/runs/20861567130)",
       "mcp__github__list_branches",
-      "Bash(curl -s -H \"Accept: application/vnd.github.v3+json\" https://api.github.com/repos/shirazkk/Physicial_Ai_Book_Hackathon_1/actions/runs/20861629630)"
+      "Bash(curl -s -H \"Accept: application/vnd.github.v3+json\" https://api.github.com/repos/shirazkk/Physicial_Ai_Book_Hackathon_1/actions/runs/20861629630)",
+      "Bash(git add .)"
     ]
   }
 }

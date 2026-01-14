@@ -5,7 +5,23 @@
 class ChatApiService {
   constructor() {
     // Get the API URL from environment or use default
-    this.baseUrl = process.env.REACT_APP_CHATBOT_API_URL || 'http://localhost:8000';
+    // Safe handling for both build time and runtime in Docusaurus
+    let apiUrl = 'http://localhost:8000';
+
+    // Check if process exists and has env (Node.js environment)
+    if (typeof process !== 'undefined' && process.env) {
+      apiUrl = process.env.REACT_APP_CHATBOT_API_URL || process.env.CHATBOT_API_URL || 'http://localhost:8000';
+    }
+    // For browser environments, we can also check for a global config
+    else if (typeof window !== 'undefined' && window.APP_CONFIG) {
+      apiUrl = window.APP_CONFIG.CHATBOT_API_URL || 'http://localhost:8000';
+    }
+    // Final fallback to localStorage for runtime configuration
+    else if (typeof window !== 'undefined') {
+      apiUrl = localStorage.getItem('CHATBOT_API_URL') || 'http://localhost:8000';
+    }
+
+    this.baseUrl = apiUrl;
     this.apiPrefix = '/api/v1';
   }
 

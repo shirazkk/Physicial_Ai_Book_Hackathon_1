@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import chatApiService from '../../services/chat-api';
 
-const SessionManager = ({ currentSessionId, onSessionChange, onCreateNewSession, onDeleteSession }) => {
+const SessionManager = ({ currentSessionId, onSessionChange, onCreateNewSession, onDeleteSession, userId = 'default-user' }) => {
   const [sessions, setSessions] = useState([]);
   const [showSessionList, setShowSessionList] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Mock data for now - would connect to API in real implementation
+  // Load sessions from API
   useEffect(() => {
-    // Simulate loading sessions from an API
-    const mockSessions = [
-      { id: 'session-1', title: 'Intro to AI Questions', lastActive: '2023-05-15', messageCount: 5 },
-      { id: 'session-2', title: 'ML Algorithms Discussion', lastActive: '2023-05-16', messageCount: 12 },
-      { id: 'session-3', title: 'Neural Networks Q&A', lastActive: '2023-05-17', messageCount: 8 },
-    ];
+    loadSessions();
+  }, [userId]);
 
-    setSessions(mockSessions);
-  }, []);
+  const loadSessions = async () => {
+    setLoading(true);
+    try {
+      const sessionList = await chatApiService.getSessions(userId);
+      setSessions(sessionList.sessions || []);
+    } catch (error) {
+      console.error('Error loading sessions:', error);
+      // Set empty array on error, could show error message to user
+      setSessions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleSessionList = () => {
     setShowSessionList(!showSessionList);
@@ -23,6 +32,33 @@ const SessionManager = ({ currentSessionId, onSessionChange, onCreateNewSession,
   const handleSessionSelect = (sessionId) => {
     onSessionChange(sessionId);
     setShowSessionList(false);
+  };
+
+  const handleCreateNewSession = async () => {
+    try {
+      const newSession = await chatApiService.createSession({ user_id: userId });
+      // Refresh the session list
+      await loadSessions();
+      // Switch to the new session
+      onSessionChange(newSession.session_id);
+    } catch (error) {
+      console.error('Error creating new session:', error);
+    }
+    setShowSessionList(false);
+  };
+
+  const handleDeleteSession = async (sessionId) => {
+    try {
+      await chatApiService.deleteSession(sessionId);
+      // Refresh the session list
+      await loadSessions();
+      // If we deleted the current session, switch to a different one or clear current session
+      if (currentSessionId === sessionId) {
+        onSessionChange(null);
+      }
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    }
   };
 
   const formatDate = (dateString) => {
@@ -41,35 +77,35 @@ const SessionManager = ({ currentSessionId, onSessionChange, onCreateNewSession,
           <div className="session-actions">
             <button
               className="new-session-btn"
-              onClick={() => {
-                onCreateNewSession();
-                setShowSessionList(false);
-              }}
+              onClick={handleCreateNewSession}
+              disabled={loading}
             >
-              + New Session
+              {loading ? 'Creating...' : '+ New Session'}
             </button>
           </div>
 
           <div className="session-list">
-            {sessions.length > 0 ? (
+            {loading ? (
+              <div className="loading-sessions">Loading sessions...</div>
+            ) : sessions.length > 0 ? (
               sessions.map((session) => (
                 <div
-                  key={session.id}
-                  className={`session-item ${session.id === currentSessionId ? 'active' : ''}`}
-                  onClick={() => handleSessionSelect(session.id)}
+                  key={session.session_id}
+                  className={`session-item ${session.session_id === currentSessionId ? 'active' : ''}`}
+                  onClick={() => handleSessionSelect(session.session_id)}
                 >
                   <div className="session-info">
                     <div className="session-title">{session.title}</div>
                     <div className="session-meta">
-                      <span>{session.messageCount} messages</span>
-                      <span>Last: {formatDate(session.lastActive)}</span>
+                      <span>{session.message_count} messages</span>
+                      <span>Last: {formatDate(session.last_active)}</span>
                     </div>
                   </div>
                   <button
                     className="delete-session-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDeleteSession(session.id);
+                      handleDeleteSession(session.session_id);
                     }}
                     title="Delete session"
                   >

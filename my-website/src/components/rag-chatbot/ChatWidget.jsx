@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import chatApiService from '../../services/chat-api';
+import TextSelector from './TextSelector';
 
 import './ChatWidget.css'; // Import the CSS file
 
@@ -110,36 +111,22 @@ const ChatWidget = () => {
     setSelectedTextOnlyMode(!selectedTextOnlyMode);
   };
 
-  // Function to handle text selection
-  const handleTextSelection = () => {
-    const selectedTextContent = window.getSelection().toString();
+  // Callback function to handle text selection from TextSelector
+  const handleTextSelection = (selectedTextContent) => {
     if (selectedTextContent) {
       setSelectedText(selectedTextContent);
     }
   };
 
-  // Effect to add event listener for text selection
-  useEffect(() => {
-    const handleSelectionChange = () => {
-      const selectedTextContent = window.getSelection().toString();
-      if (selectedTextContent) {
-        // Optionally update selected text state if needed
-        // setSelectedText(selectedTextContent);
-      }
-    };
-
-    document.addEventListener('selectionchange', handleSelectionChange);
-    return () => {
-      document.removeEventListener('selectionchange', handleSelectionChange);
-    };
-  }, []);
-
   return (
     <div className="chat-widget">
+      {/* TextSelector component to capture text selections across the page */}
+      <TextSelector onTextSelected={handleTextSelection} />
+
       {/* Floating button to open/close chat */}
       {!isOpen && (
         <button className="chat-toggle-btn" onClick={toggleChat}>
-          💬 Ask BookBot
+          💬
         </button>
       )}
 
