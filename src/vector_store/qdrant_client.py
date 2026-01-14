@@ -358,7 +358,8 @@ def get_qdrant_client() -> QdrantVectorStore:
     return QdrantVectorStore(
         host=settings.qdrant_url,
         api_key=settings.qdrant_api_key,
-        collection_name=settings.qdrant_collection_name
+        collection_name=settings.qdrant_collection_name,
+        vector_size=settings.qdrant_vector_size
     )
 
 
