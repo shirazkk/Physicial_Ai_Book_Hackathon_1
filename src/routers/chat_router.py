@@ -67,12 +67,47 @@ class SessionMessagesResponse(BaseModel):
 # Create the router
 router = APIRouter(prefix="/api/v1", tags=["chat"])
 
-# Global instances (would be dependency injected in production)
-retrieval_engine = get_retrieval_engine()
-context_assembler = get_context_assembler()
-chat_client = get_gemini_chat_client()
-refusal_handler = get_refusal_handler()
-indexing_pipeline = get_indexing_pipeline()
+# Global instances with lazy initialization (to avoid connection errors at import time)
+_retrieval_engine = None
+_context_assembler = None
+_chat_client = None
+_refusal_handler = None
+_indexing_pipeline = None
+
+
+def get_retrieval_engine_lazy():
+    global _retrieval_engine
+    if _retrieval_engine is None:
+        _retrieval_engine = get_retrieval_engine()
+    return _retrieval_engine
+
+
+def get_context_assembler_lazy():
+    global _context_assembler
+    if _context_assembler is None:
+        _context_assembler = get_context_assembler()
+    return _context_assembler
+
+
+def get_chat_client_lazy():
+    global _chat_client
+    if _chat_client is None:
+        _chat_client = get_gemini_chat_client()
+    return _chat_client
+
+
+def get_refusal_handler_lazy():
+    global _refusal_handler
+    if _refusal_handler is None:
+        _refusal_handler = get_refusal_handler()
+    return _refusal_handler
+
+
+def get_indexing_pipeline_lazy():
+    global _indexing_pipeline
+    if _indexing_pipeline is None:
+        _indexing_pipeline = get_indexing_pipeline()
+    return _indexing_pipeline
 
 # In-memory session storage (would be replaced with database in production)
 sessions: Dict[str, ChatSession] = {}
@@ -103,12 +138,12 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
         # Retrieve relevant context based on mode
         if request.selected_text_only and request.selected_text:
             # Use only the selected text as context
-            retrieved_chunks = retrieval_engine.retrieve_with_selected_text_only(
+            retrieved_chunks = get_retrieval_engine_lazy().retrieve_with_selected_text_only(
                 selected_text=request.selected_text
             )
         else:
             # Retrieve from knowledge base
-            retrieved_chunks = retrieval_engine.retrieve_and_rank(
+            retrieved_chunks = get_retrieval_engine_lazy().retrieve_and_rank(
                 query=request.question,
                 top_k=5,
                 min_score=0.3,
@@ -117,14 +152,14 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
 
         # Assemble context
         if request.selected_text_only and request.selected_text:
-            context = context_assembler.assemble_context_for_selected_text_only(
+            context = get_context_assembler_lazy().assemble_context_for_selected_text_only(
                 query=request.question,
                 selected_text=request.selected_text,
                 conversation_history=session.get_messages(),
                 system_prompt=system_prompt
             )
         else:
-            context = context_assembler.assemble_context(
+            context = get_context_assembler_lazy().assemble_context(
                 query=request.question,
                 retrieved_chunks=retrieved_chunks,
                 conversation_history=session.get_messages(),
@@ -133,7 +168,7 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
 
         # Generate response
         if retrieved_chunks:  # If we have context to work with
-            response_result = chat_client.generate_response_with_citations(
+            response_result = get_chat_client_lazy().generate_response_with_citations(
                 prompt=request.question,
                 context=context
             )
@@ -141,7 +176,7 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
             citations = response_result['citations']
         else:
             # No relevant context found, use refusal handler
-            response_text = refusal_handler.handle_out_of_corpus_query(
+            response_text = get_refusal_handler_lazy().handle_out_of_corpus_query(
                 query=request.question,
                 selected_text_mode=request.selected_text_only
             )
@@ -180,7 +215,7 @@ async def index_documents(request: IndexRequest) -> IndexResponse:
     Endpoint to trigger document indexing.
     """
     try:
-        results = indexing_pipeline.index_from_docs_directory(request.directory_path)
+        results = get_indexing_pipeline_lazy().index_from_docs_directory(request.directory_path)
 
         successful_files = sum(1 for success in results.values() if success)
 
