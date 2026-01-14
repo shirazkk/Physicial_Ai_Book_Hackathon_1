@@ -32,7 +32,7 @@ class Settings(BaseSettings):
 
     # CORS settings
     cors_origins: list[str] = Field(
-        default=['http://localhost:3000', 'http://localhost:3001', 'https://yourdomain.com'],
+        default=['http://localhost:3000', 'http://localhost:3001', 'https://shirazkk.github.io/Physicial_Ai_Book_Hackathon_1'],
         validation_alias='CORS_ORIGINS'
     )
 
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     # Application settings
     environment: str = Field(default='development', validation_alias='ENVIRONMENT')
     log_level: str = Field(default='INFO', validation_alias='LOG_LEVEL')
-    allowed_origins: str = Field(default='http://localhost:3000,http://localhost:8080', validation_alias='ALLOWED_ORIGINS')
+    allowed_origins: str = Field(default='http://localhost:3000, https://shirazkk.github.io/Physicial_Ai_Book_Hackathon_1, http://localhost:8080', validation_alias='ALLOWED_ORIGINS')
 
     # RAG parameters
     chunk_size: int = Field(default=600, validation_alias='CHUNK_SIZE')
