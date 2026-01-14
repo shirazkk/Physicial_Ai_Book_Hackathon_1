@@ -6,23 +6,10 @@ class ChatApiService {
   constructor() {
     // Get the API URL from environment or use default
     // Safe handling for both build time and runtime in Docusaurus
-    let apiUrl = 'http://localhost:8000';
-
-    // Check if process exists and has env (Node.js environment)
-    if (typeof process !== 'undefined' && process.env) {
-      apiUrl = process.env.REACT_APP_CHATBOT_API_URL || process.env.CHATBOT_API_URL || 'http://localhost:8000';
-    }
-    // For browser environments, we can also check for a global config
-    else if (typeof window !== 'undefined' && window.APP_CONFIG) {
-      apiUrl = window.APP_CONFIG.CHATBOT_API_URL || 'http://localhost:8000';
-    }
-    // Final fallback to localStorage for runtime configuration
-    else if (typeof window !== 'undefined') {
-      apiUrl = localStorage.getItem('CHATBOT_API_URL') || 'http://localhost:8000';
-    }
+    let apiUrl = "http://localhost:8000";
 
     this.baseUrl = apiUrl;
-    this.apiPrefix = '/api/v1';
+    this.apiPrefix = "/api/v1";
   }
 
   /**
@@ -34,13 +21,18 @@ class ChatApiService {
    * @param {string|null} selectedText - Text selected by the user (if in selected text mode)
    * @returns {Promise<Object>} Response from the chatbot
    */
-  async askQuestion(question, sessionId = null, selectedTextOnlyMode = false, selectedText = null) {
+  async askQuestion(
+    question,
+    sessionId = null,
+    selectedTextOnlyMode = false,
+    selectedText = null
+  ) {
     const url = `${this.baseUrl}${this.apiPrefix}/chat`;
 
     const requestBody = {
       question: question,
       session_id: sessionId,
-      selected_text_only: selectedTextOnlyMode
+      selected_text_only: selectedTextOnlyMode,
     };
 
     // Add selected text if in selected text mode
@@ -50,11 +42,11 @@ class ChatApiService {
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -64,7 +56,7 @@ class ChatApiService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error sending question to chatbot:', error);
+      console.error("Error sending question to chatbot:", error);
       throw error;
     }
   }
@@ -76,14 +68,16 @@ class ChatApiService {
    * @returns {Promise<Array>} List of session objects
    */
   async getSessions(userId) {
-    const url = `${this.baseUrl}${this.apiPrefix}/sessions?user_id=${encodeURIComponent(userId)}`;
+    const url = `${this.baseUrl}${
+      this.apiPrefix
+    }/sessions?user_id=${encodeURIComponent(userId)}`;
 
     try {
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
@@ -93,7 +87,7 @@ class ChatApiService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching sessions:', error);
+      console.error("Error fetching sessions:", error);
       throw error;
     }
   }
@@ -109,10 +103,10 @@ class ChatApiService {
 
     try {
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
@@ -122,7 +116,7 @@ class ChatApiService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching session messages:', error);
+      console.error("Error fetching session messages:", error);
       throw error;
     }
   }
@@ -138,11 +132,11 @@ class ChatApiService {
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(sessionData)
+        body: JSON.stringify(sessionData),
       });
 
       if (!response.ok) {
@@ -152,7 +146,7 @@ class ChatApiService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error creating session:', error);
+      console.error("Error creating session:", error);
       throw error;
     }
   }
@@ -168,10 +162,10 @@ class ChatApiService {
 
     try {
       const response = await fetch(url, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
@@ -180,7 +174,7 @@ class ChatApiService {
 
       return true;
     } catch (error) {
-      console.error('Error deleting session:', error);
+      console.error("Error deleting session:", error);
       throw error;
     }
   }
@@ -195,15 +189,15 @@ class ChatApiService {
 
     try {
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       return response.ok;
     } catch (error) {
-      console.error('Error testing connection:', error);
+      console.error("Error testing connection:", error);
       return false;
     }
   }
