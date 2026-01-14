@@ -1,0 +1,13 @@
+
+.node_modules/
+build/
+dist/
+.eggs/
+.egg-info/
+.pytest_cache/
+.tox/
+.venv/
+.env/
+.egg/
+local_settings.py
+db.sqlite3
